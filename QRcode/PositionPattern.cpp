@@ -260,7 +260,7 @@ Vec4i PositionPattern::detectTimePattern(PositionPattern &rect2,  const Mat &bin
 						if (!pattern.empty())
 							pattern.erase(pattern.begin());
 
-						line(drawingLine, timePatternA, timePatternB, cv::Scalar(128, 128, 128), 1, 8, 0);
+						line(drawingLine, timePatternA, timePatternB, cv::Scalar(128, 128, 128), 3, 8, 0);
 
 						float var = computeVariance(pattern);
 						cout << var << endl;

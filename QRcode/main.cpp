@@ -150,7 +150,7 @@ int main(int argc, char const *argv[]) {
 	vector<vector<int>> QRCode_group;
 	for (int i = 0; i < posPat.size() - 1; i++)
 	{
-		Mat drawing_time_pattern = adapThresh.clone();
+		Mat drawing_time_pattern = imageGray.clone();
 		for (int j = i + 1; j < posPat.size(); j++)
 		{
 			Vec4i timePattern = posPat[i]->detectTimePattern(*(posPat[j]), adapThresh, drawing_time_pattern, 5);
@@ -199,6 +199,7 @@ int main(int argc, char const *argv[]) {
 	imshow("time pattern", patternImg);
 
 	cout << "QRCode group size: " << QRCode_group.size() << endl;
+	Mat drawing_ImageLine = image.clone();
 	if (!QRCode_group.empty())
 	{
 		for (vector<int> QRCode : QRCode_group)
@@ -231,12 +232,6 @@ int main(int argc, char const *argv[]) {
 				if (boundingCorners.size() == 4)
 				{
 					Mat drawing_corners = imageGray.clone();
-					for (int k = 0; k < 4; k++)
-					{
-
-						circle(drawing_corners, boundingCorners[k], 3, (255, 255, 255), 2);
-					}
-					imshow("drawing corners", drawing_corners);
 
 					/* sort */
 					for (int i = 0; i < 4; i++)
@@ -272,6 +267,13 @@ int main(int argc, char const *argv[]) {
 						if (srcPoints[m].y < 0)
 							srcPoints[m].y = 0;
 					}
+					Scalar ranColor(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
+					
+
+					line(drawing_ImageLine, srcPoints[0], srcPoints[1], ranColor, 2, 8, 0);
+					line(drawing_ImageLine, srcPoints[1], srcPoints[2], ranColor, 2, 8, 0);
+					line(drawing_ImageLine, srcPoints[2], srcPoints[3], ranColor, 2, 8, 0);
+					line(drawing_ImageLine, srcPoints[3], srcPoints[0], ranColor, 2, 8, 0);
 
 
 					/* transform */
@@ -292,6 +294,7 @@ int main(int argc, char const *argv[]) {
 			}
 		}
 	}
+	imshow("image", drawing_ImageLine);
 
 
 
